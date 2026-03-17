@@ -176,3 +176,21 @@ def ambil_last_active(user_id):
         return data.get("last_active", "-")
     return "-"
 
+# ════════════════════════════════════════════
+# RESET STATUS HARIAN
+# ════════════════════════════════════════════
+
+def reset_status_harian():
+    """Reset semua status jadwal jadi 'belum' setiap hari baru"""
+    db = baca_db()
+    for uid in db:
+        data = db[uid]
+        if isinstance(data, dict):
+            for item in data.get("jadwal", []):
+                item["status"] = "belum"
+        elif isinstance(data, list):
+            for item in data:
+                item["status"] = "belum"
+    tulis_db(db)
+    print("✅ Status jadwal semua user berhasil direset.")
+
