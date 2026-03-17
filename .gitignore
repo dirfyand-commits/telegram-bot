@@ -1,0 +1,6 @@
+data/
+__pycache__/
+*.pyc
+sesi_bot/
+*.session
+*.log
