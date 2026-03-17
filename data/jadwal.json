@@ -14,7 +14,7 @@
       {
         "jam": "04:40",
         "kegiatan": "Sholat Subuh",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "05:00",
@@ -24,7 +24,7 @@
       {
         "jam": "05:20",
         "kegiatan": "Jalan pagi / hirup udara segar",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "05:40",
@@ -147,8 +147,8 @@
         "status": "belum"
       }
     ],
-    "exp": 140,
-    "streak": 1,
-    "last_active": "2026-03-17"
+    "exp": 180,
+    "streak": 2,
+    "last_active": "2026-03-18"
   }
 }
