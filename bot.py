@@ -30,7 +30,7 @@ logging.basicConfig(
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
-BOT_TOKEN = os.environ.get("8642003715:AAGvUd8fSWv7mZQOuLhpaH8EDZnMZDnyoA0", "")
+BOT_TOKEN = "8642003715:AAGvUd8fSWv7mZQOuLhpaH8EDZnMZDnyoA0"
 
 # ── Timezone WIB ─────────────────────────────────────────────
 WIB = timezone(timedelta(hours=7))

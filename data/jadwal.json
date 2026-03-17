@@ -84,7 +84,7 @@
       {
         "jam": "14:30",
         "kegiatan": "Sholat Ashar",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "15:00",
@@ -94,22 +94,22 @@
       {
         "jam": "16:00",
         "kegiatan": "Review pelajaran bahasa atau coding",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "16:30",
         "kegiatan": "Mandi sore dan rapihin diri",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "17:30",
         "kegiatan": "Waktu santai / baca buku",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "18:00",
         "kegiatan": "Buka puasa",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "18:30",
@@ -129,7 +129,7 @@
       {
         "jam": "20:00",
         "kegiatan": "Belajar bebas (bahasa / coding ringan)",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "21:00",
