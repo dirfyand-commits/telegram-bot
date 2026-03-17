@@ -1,0 +1,154 @@
+{
+  "6955868820": {
+    "jadwal": [
+      {
+        "jam": "04:00",
+        "kegiatan": "Sahur",
+        "status": "belum"
+      },
+      {
+        "jam": "04:20",
+        "kegiatan": "Sikat gigi dan cuci muka",
+        "status": "belum"
+      },
+      {
+        "jam": "04:40",
+        "kegiatan": "Sholat Subuh",
+        "status": "belum"
+      },
+      {
+        "jam": "05:00",
+        "kegiatan": "Dzikir / baca ringan",
+        "status": "belum"
+      },
+      {
+        "jam": "05:20",
+        "kegiatan": "Jalan pagi / hirup udara segar",
+        "status": "belum"
+      },
+      {
+        "jam": "05:40",
+        "kegiatan": "Olahraga ringan (push up, squat, sit up, plank)",
+        "status": "belum"
+      },
+      {
+        "jam": "06:10",
+        "kegiatan": "Mandi dan rapihin diri",
+        "status": "belum"
+      },
+      {
+        "jam": "06:30",
+        "kegiatan": "Belajar bahasa (kosakata / latihan membaca)",
+        "status": "belum"
+      },
+      {
+        "jam": "07:30",
+        "kegiatan": "Beres kamar dan bantu orang tua",
+        "status": "belum"
+      },
+      {
+        "jam": "08:00",
+        "kegiatan": "Belajar coding (dasar / latihan program)",
+        "status": "sudah"
+      },
+      {
+        "jam": "09:30",
+        "kegiatan": "Istirahat santai",
+        "status": "belum"
+      },
+      {
+        "jam": "10:00",
+        "kegiatan": "Belajar bahasa lagi (latihan menulis / mendengar)",
+        "status": "belum"
+      },
+      {
+        "jam": "11:30",
+        "kegiatan": "Sholat Dzuhur",
+        "status": "belum"
+      },
+      {
+        "jam": "12:00",
+        "kegiatan": "Istirahat santai",
+        "status": "belum"
+      },
+      {
+        "jam": "12:30",
+        "kegiatan": "Tidur siang",
+        "status": "belum"
+      },
+      {
+        "jam": "13:30",
+        "kegiatan": "Belajar coding (latihan membuat program kecil)",
+        "status": "belum"
+      },
+      {
+        "jam": "14:30",
+        "kegiatan": "Sholat Ashar",
+        "status": "belum"
+      },
+      {
+        "jam": "15:00",
+        "kegiatan": "Olahraga ringan / jalan sore",
+        "status": "belum"
+      },
+      {
+        "jam": "16:00",
+        "kegiatan": "Review pelajaran bahasa atau coding",
+        "status": "belum"
+      },
+      {
+        "jam": "16:30",
+        "kegiatan": "Mandi sore dan rapihin diri",
+        "status": "belum"
+      },
+      {
+        "jam": "17:30",
+        "kegiatan": "Waktu santai / baca buku",
+        "status": "belum"
+      },
+      {
+        "jam": "18:00",
+        "kegiatan": "Buka puasa",
+        "status": "belum"
+      },
+      {
+        "jam": "18:30",
+        "kegiatan": "Sholat Maghrib",
+        "status": "belum"
+      },
+      {
+        "jam": "19:00",
+        "kegiatan": "Makan malam",
+        "status": "belum"
+      },
+      {
+        "jam": "19:30",
+        "kegiatan": "Sholat Isya",
+        "status": "belum"
+      },
+      {
+        "jam": "20:00",
+        "kegiatan": "Belajar bebas (bahasa / coding ringan)",
+        "status": "belum"
+      },
+      {
+        "jam": "21:00",
+        "kegiatan": "Waktu bebas (nonton / main game sebentar)",
+        "status": "belum"
+      },
+      {
+        "jam": "21:30",
+        "kegiatan": "Persiapan tidur",
+        "status": "belum"
+      },
+      {
+        "jam": "22:00",
+        "kegiatan": "Tidur",
+        "status": "belum"
+      }
+    ],
+    "exp": 20,
+    "streak": 1,
+    "last_active": "2026-03-17"
+  }
+}
