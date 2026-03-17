@@ -49,7 +49,7 @@
       {
         "jam": "08:00",
         "kegiatan": "Belajar coding (dasar / latihan program)",
-        "status": "sudah"
+        "status": "belum"
       },
       {
         "jam": "09:30",
@@ -84,7 +84,7 @@
       {
         "jam": "14:30",
         "kegiatan": "Sholat Ashar",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "15:00",
@@ -94,22 +94,22 @@
       {
         "jam": "16:00",
         "kegiatan": "Review pelajaran bahasa atau coding",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "16:30",
         "kegiatan": "Mandi sore dan rapihin diri",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "17:30",
         "kegiatan": "Waktu santai / baca buku",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "18:00",
         "kegiatan": "Buka puasa",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "18:30",
@@ -129,7 +129,7 @@
       {
         "jam": "20:00",
         "kegiatan": "Belajar bebas (bahasa / coding ringan)",
-        "status": "belum"
+        "status": "sudah"
       },
       {
         "jam": "21:00",
@@ -147,7 +147,7 @@
         "status": "belum"
       }
     ],
-    "exp": 20,
+    "exp": 140,
     "streak": 1,
     "last_active": "2026-03-17"
   }
