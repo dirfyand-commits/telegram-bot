@@ -1,11 +1,12 @@
 # ============================================================
-# bot.py - File Utama Bot Telegram Pengingat Jadwal
+# bot.py - Bot Telegram Pengingat Jadwal Produktif
 # Dibuat oleh: NellStore
 # ============================================================
 
 import os
 import random
 import logging
+from datetime import datetime, timezone, timedelta
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -30,8 +31,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-BOT_TOKEN = "8642003715:AAGvUd8fSWv7mZQOuLhpaH8EDZnMZDnyoA0"
+BOT_TOKEN = os.environ.get("8642003715:AAGvUd8fSWv7mZQOuLhpaH8EDZnMZDnyoA0", "")
 
+# ── Timezone WIB ─────────────────────────────────────────────
+WIB = timezone(timedelta(hours=7))
+
+# ── Motivasi ─────────────────────────────────────────────────
 MOTIVASI = [
     "💪 Kamu pasti bisa! Semangat terus!",
     "🔥 Jangan menyerah, setiap langkah kecil itu berarti!",
@@ -43,7 +48,32 @@ MOTIVASI = [
     "🏆 Orang sukses melakukan hal yang tidak ingin dilakukan orang gagal!",
 ]
 
+# ── Jadwal Workout Kizzy ─────────────────────────────────────
+JADWAL_WORKOUT = {
+    "Senin":    "💪 Chest, Triceps, Shoulders",
+    "Selasa":   "💪 Biceps, Back, Traps",
+    "Rabu":     "🦵 Leg Day, Abs",
+    "Kamis":    "💪 Chest, Triceps, Shoulders",
+    "Jumat":    "💪 Biceps, Back, Traps",
+    "Sabtu":    "🦵 Leg Day, Abs",
+    "Minggu":   "😴 Rest / Arm Day",
+}
+
+HARI_ID = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+
 menunggu_jadwal = set()
+
+# ── Tanggal mulai workout (ubah sesuai hari pertama kamu mulai) ──
+TANGGAL_MULAI_WORKOUT = datetime(2026, 3, 17, tzinfo=WIB)
+
+def get_hari_sekarang():
+    now = datetime.now(WIB)
+    return HARI_ID[now.weekday()]
+
+def get_hari_ke():
+    now = datetime.now(WIB)
+    delta = (now - TANGGAL_MULAI_WORKOUT).days + 1
+    return max(1, delta)
 
 def badge_level(level):
     if level >= 10: return "👑 Legend"
@@ -51,6 +81,7 @@ def badge_level(level):
     if level >= 5: return "🥇 Expert"
     if level >= 3: return "🥈 Intermediate"
     return "🥉 Beginner"
+
 
 # ════════════════════════════════════════════
 # COMMAND /start
@@ -61,16 +92,83 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     nama = update.effective_user.first_name
     menunggu_jadwal.add(user_id)
 
+    hari = get_hari_sekarang()
+    workout = JADWAL_WORKOUT.get(hari, "-")
+    hari_ke = get_hari_ke()
+    now = datetime.now(WIB).strftime("%d/%m/%Y %H:%M WIB")
+
     pesan = (
         f"Halo, *{nama}*! 👋\n"
         f"Aku adalah bot pengingat jadwal produktif.\n\n"
+        f"📅 *Hari ini:* {hari} — Hari ke-*{hari_ke}*\n"
+        f"🕐 *Waktu:* {now}\n"
+        f"🏋️ *Workout hari ini:* {workout}\n\n"
         f"Silakan kirim jadwal harian kamu:\n\n"
         f"`07:00 Bangun pagi`\n"
         f"`08:00 Belajar coding`\n"
         f"`12:00 Istirahat makan siang`\n"
         f"`20:00 Review hari`\n\n"
-        f"📌 Kirim semua jadwal dalam *satu pesan*.\n\n"
+        f"📌 Kirim semua jadwal dalam *satu pesan*.\n"
         f"💡 Setiap kegiatan selesai = *+20 EXP* 🎮"
+    )
+    await update.message.reply_text(pesan, parse_mode="Markdown")
+
+
+# ════════════════════════════════════════════
+# COMMAND /workout
+# ════════════════════════════════════════════
+
+async def cmd_workout(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    hari_ke = get_hari_ke()
+    hari = get_hari_sekarang()
+    now = datetime.now(WIB).strftime("%d/%m/%Y %H:%M WIB")
+
+    teks = (
+        f"🏋️ *Jadwal Workout Kizzy*\n"
+        f"━━━━━━━━━━━━━━━━━━\n\n"
+        f"📅 Hari ini: *{hari}* (Hari ke-*{hari_ke}*)\n"
+        f"🕐 Waktu: {now}\n\n"
+    )
+
+    for hari_nama, latihan in JADWAL_WORKOUT.items():
+        ikon = "▶️" if hari_nama == hari else "▪️"
+        teks += f"{ikon} *{hari_nama}:* {latihan}\n"
+
+    teks += f"\n━━━━━━━━━━━━━━━━━━\n"
+    teks += f"💪 *Workout hari ini:* {JADWAL_WORKOUT.get(hari, '-')}\n"
+    teks += f"_Semangat latihan!_ 🔥"
+
+    await update.message.reply_text(teks, parse_mode="Markdown")
+
+
+# ════════════════════════════════════════════
+# COMMAND /hari
+# ════════════════════════════════════════════
+
+async def cmd_hari(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    hari_ke = get_hari_ke()
+    hari = get_hari_sekarang()
+    now = datetime.now(WIB)
+    tanggal = now.strftime("%A, %d %B %Y")
+    waktu = now.strftime("%H:%M:%S WIB")
+    workout = JADWAL_WORKOUT.get(hari, "-")
+
+    # Hitung progress minggu
+    hari_index = now.weekday() + 1
+    progress = "█" * hari_index + "░" * (7 - hari_index)
+
+    pesan = (
+        f"📅 *Info Hari*\n"
+        f"━━━━━━━━━━━━━━━━━━\n\n"
+        f"🗓️ Tanggal : {tanggal}\n"
+        f"🕐 Waktu   : {waktu}\n"
+        f"📍 Zona    : WIB (UTC+7)\n\n"
+        f"📊 *Progress Minggu Ini:*\n"
+        f"`{progress}` {hari_index}/7\n\n"
+        f"🏋️ *Hari ke-{hari_ke} workout*\n"
+        f"💪 Latihan : {workout}\n\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"_Tetap konsisten setiap hari!_ 🔥"
     )
     await update.message.reply_text(pesan, parse_mode="Markdown")
 
@@ -87,7 +185,12 @@ async def cmd_jadwal(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Belum ada jadwal. Ketik /start untuk input jadwal.")
         return
 
-    teks = "📅 *Jadwal Harian Kamu:*\n━━━━━━━━━━━━━━━━━━\n"
+    hari = get_hari_sekarang()
+    now = datetime.now(WIB).strftime("%H:%M WIB")
+
+    teks = f"📅 *Jadwal Harian — {hari}*\n"
+    teks += f"🕐 {now}\n"
+    teks += "━━━━━━━━━━━━━━━━━━\n"
     sudah = 0
     for item in jadwal:
         status = item.get("status", "belum")
@@ -119,6 +222,7 @@ async def cmd_profil(update: Update, context: ContextTypes.DEFAULT_TYPE):
     last_active = ambil_last_active(user_id)
     level, exp_sekarang, exp_needed = get_level(exp)
     badge = badge_level(level)
+    hari_ke = get_hari_ke()
 
     exp_bar = "█" * min(10, int((exp_sekarang / exp_needed) * 10))
     exp_bar += "░" * (10 - len(exp_bar))
@@ -131,6 +235,7 @@ async def cmd_profil(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"✨ EXP     : {exp_sekarang}/{exp_needed}\n"
         f"📈 Progress: `{exp_bar}`\n\n"
         f"🔥 Streak  : {streak} hari berturut-turut\n"
+        f"🏋️ Hari ke : {hari_ke} workout\n"
         f"📅 Terakhir aktif: {last_active}\n\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"_Selesaikan kegiatan untuk dapat EXP!_ 💪"
@@ -146,7 +251,6 @@ async def cmd_reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     hapus_jadwal(user_id)
     menunggu_jadwal.add(user_id)
-
     await update.message.reply_text(
         "🗑️ *Jadwal berhasil direset!*\n\nKirim jadwal baru kamu sekarang. 📝",
         parse_mode="Markdown"
@@ -161,17 +265,16 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     pesan = (
         f"📋 *Panduan Bot Pengingat Jadwal*\n"
         f"━━━━━━━━━━━━━━━━━━\n\n"
-        f"▸ /start — 🚀 Mulai & input jadwal baru\n"
+        f"▸ /start — 🚀 Mulai & input jadwal\n"
         f"▸ /jadwal — 📅 Lihat jadwal + progress\n"
+        f"▸ /workout — 🏋️ Jadwal workout mingguan\n"
+        f"▸ /hari — 📅 Info hari + waktu WIB\n"
         f"▸ /profil — 🏅 Lihat EXP, level & streak\n"
-        f"▸ /reset — 🗑️ Hapus & input ulang jadwal\n"
-        f"▸ /help — ❓ Tampilkan bantuan\n\n"
+        f"▸ /reset — 🗑️ Reset jadwal\n"
+        f"▸ /help — ❓ Bantuan\n\n"
         f"*Sistem EXP:*\n"
         f"✅ Selesai kegiatan = +20 EXP\n"
         f"🔥 Aktif tiap hari = streak bertambah\n\n"
-        f"*Level Badge:*\n"
-        f"🥉 Beginner → 🥈 Intermediate → 🥇 Expert\n"
-        f"💎 Master → 👑 Legend\n\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"_Bot by NellStore_"
     )
@@ -179,7 +282,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ════════════════════════════════════════════
-# HANDLER PESAN (Input Jadwal)
+# HANDLER PESAN
 # ════════════════════════════════════════════
 
 async def handler_pesan(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -215,7 +318,7 @@ async def handler_pesan(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ════════════════════════════════════════════
-# HANDLER TOMBOL (Sudah / Belum)
+# HANDLER TOMBOL
 # ════════════════════════════════════════════
 
 async def handler_tombol(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -239,8 +342,6 @@ async def handler_tombol(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if aksi == "sudah":
         update_status(user_id, jam, "sudah")
-
-        # Tambah EXP & update streak
         total_exp, level = tambah_exp(user_id)
         streak = update_streak(user_id)
         _, exp_now, exp_needed = get_level(total_exp)
@@ -272,7 +373,7 @@ async def handler_tombol(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ════════════════════════════════════════════
-# JALANKAN BOT
+# MAIN
 # ════════════════════════════════════════════
 
 def main():
@@ -282,6 +383,8 @@ def main():
 
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("jadwal", cmd_jadwal))
+    app.add_handler(CommandHandler("workout", cmd_workout))
+    app.add_handler(CommandHandler("hari", cmd_hari))
     app.add_handler(CommandHandler("profil", cmd_profil))
     app.add_handler(CommandHandler("reset", cmd_reset))
     app.add_handler(CommandHandler("help", cmd_help))
@@ -294,8 +397,6 @@ def main():
     app.post_init = post_init
 
     print("🤖 Bot Pengingat Jadwal siap dijalankan!")
-    print("Tekan Ctrl+C untuk menghentikan.\n")
-
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
